@@ -1,0 +1,17 @@
+//Shorcode Setup
+/*To add shortcode*/
+//include file content
+//[include slug="sub-folder/filename_without_extension"]
+function include_file($atts) {
+        $a = shortcode_atts( array(
+                'slug' => 'NULL',
+        ), $atts );
+
+        if($slug != 'NULL'){
+                ob_start();
+                get_template_part($a['slug']);
+                return ob_get_clean();
+        }
+}
+add_shortcode('include', 'include_file');
+[include slug="shortcode/coaching"]
