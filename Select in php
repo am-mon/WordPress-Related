@@ -1,0 +1,24 @@
+<?php 
+    if(isset($_GET['select'])){
+
+        if($_GET['select'] == 'wholesale'){
+            $optionSelect = 'wholesale';
+        }else if($_GET['select'] == 'corporate_gifts'){
+            $optionSelect = 'corporate_gifts';
+        }
+}
+?>
+
+<script>
+    jQuery(document).ready(function($) {
+
+        var optionSelect = '<?php echo $optionSelect; ?>' ;
+
+        if(optionSelect == 'wholesale'){
+            $("select option[value='Enquiry For Wholesale']").prop('selected', true);
+        }else if(optionSelect == 'corporate_gifts'){
+            $("select option[value='Enquiry For Corporate Gifts']").prop('selected', true);
+        }
+
+    });
+</script>
