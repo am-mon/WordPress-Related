@@ -1,0 +1,11 @@
+//That error means that jQuery has not yet loaded on the page. Using $(document).ready(...) or any variant thereof will do no good, as $ is the jQuery function.
+//Using window.onload should work here. Note that only one function can be assigned to window.onload. To avoid losing the original onload logic, you can decorate the original function like so:
+
+originalOnload = window.onload;
+window.onload = function() {
+  if (originalOnload) {
+    originalOnload();
+  }
+  // YOUR JQUERY
+};
+This will execute the function that was originally assigned to window.onload, and then will execute // YOUR JQUERY.
