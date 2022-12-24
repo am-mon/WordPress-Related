@@ -1,0 +1,364 @@
+//With Slick Slider
+<?php 
+    $args = array (
+        'post_type'              => 'creative_portfolio',
+        'post_status'            => 'publish',
+        'pagination'             => false,
+        'posts_per_page'         => '20',
+        'order'                  => 'DESC',
+    );
+
+    $query = new WP_Query( $args );
+    if($query->have_posts()) :?>
+
+    <div class="creative-portfolio">
+            <?php
+            while($query->have_posts()) : $query->the_post(); 
+            ?>
+                <div class="creative-portfolio-box">
+                    <div class="creative-portfolio-box-inner">
+                        <a href="<?php the_permalink(); ?>">
+                            <?php the_post_thumbnail( 'full' ); ?>
+                        </a>
+                    </div>
+                </div>
+            <?php wp_reset_postdata(); endwhile; ?>
+    </div>
+
+    <script>
+     jQuery(document).ready(function($) {
+        $('.creative-portfolio').slick({
+            infinite: true,
+            loop: true,
+            swipeToSlide: true,
+            arrows: false,
+            dots: true,
+            // autoplay: true, //no need
+            // focusOnSelect: true, //no need
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            responsive: [
+                {
+                    breakpoint: 900,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        swipeToSlide: true
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        infinite: false,
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        arrows: false,
+                        swipeToSlide: true,
+                    }
+                }
+            ]
+        });
+    });
+    </script>
+
+<?php endif; ?>
+
+
+============================================================
+
+
+//Show data of previous post and next post inside loop
+<?php 
+
+    $args = array (
+    'post_type'              => 'service',
+    'post_status'            => 'publish',
+    'pagination'             => true,
+    // 'posts_per_page'         => '20',
+    'order'                  => 'ASC',
+    );
+    $query = new WP_Query( $args );
+    if($query->have_posts()) :?>
+
+    <ul class="services_listing">
+        <?php
+        while($query->have_posts()) : $query->the_post();
+        ?>
+            <li class="service_box">
+                <div class="service_box_inner" style="background:url(<?php the_post_thumbnail_url( 'full' ); ?>);">
+                    <?php 
+                        $prev_post = get_adjacent_post(false, '', true);
+                        if(!empty($prev_post)) {
+                        echo '<a href="' . get_permalink($prev_post->ID) . '" title="' . $prev_post->post_title . '">' . $prev_post->post_title . '</a>'; }
+                    ?>
+                    <br>
+                    <?php echo the_title(); ?>
+                    <br>
+                    <?php 
+                    $next_post = get_adjacent_post(false, '', false);
+                    if(!empty($next_post)) {
+                    echo '<a href="' . get_permalink($next_post->ID) . '" title="' . $next_post->post_title . '">' . $next_post->post_title . '</a>'; }
+                    ?>
+                </div>
+            </li>
+        <?php wp_reset_postdata(); endwhile; ?>
+    </ul>
+
+    <script>
+    jQuery(document).ready(function($) {    
+       
+    });
+    </script>
+
+<?php endif; ?>
+
+
+============================================================
+
+
+//slick slider dots and arrows are inline together
+<?php 
+
+    $args = array (
+        'post_type'              => 'testimonials',
+        'post_status'            => 'publish',
+        'pagination'             => true,
+        // 'posts_per_page'         => '20',
+        'order'                  => 'DESC',
+    );
+    $query = new WP_Query( $args );
+    if($query->have_posts()) :?>
+
+    <ul class="testimonials_slider">
+        <?php
+        while($query->have_posts()) : $query->the_post();
+        ?>
+            <li>
+                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon-quote.svg" class="icon_quote">
+                <div class="testimonial_desc"><?php the_field('testimonial_description'); ?></div>
+                <h3 class="person_name"><?php echo the_title(); ?></h3>
+                <span class="person_role"><?php the_field('testimonial_sub_title'); ?></span>
+            </li>
+        <?php wp_reset_postdata(); endwhile; ?>
+    </ul>
+
+    <div class="testimonials_nav_warpper">
+        <div class='custom_slider_arrows prev' ></div>
+            <div class="slide-dots"></div>
+        <div class='custom_slider_arrows next' ></div>
+    </div>
+
+    <script>
+    jQuery(document).ready(function($) {    
+        $('ul.testimonials_slider').slick({
+            // autoplay: true,
+                        speed: 500,
+            dots: true,
+            arrows: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode: true,
+            centerPadding: '20%',
+            appendDots: $(".slide-dots"),
+            prevArrow: $(".custom_slider_arrows.prev"),
+            nextArrow: $(".custom_slider_arrows.next"),
+            swipeToSlide: true,
+            responsive: [
+            {
+            breakpoint: 768,
+            settings: {
+                centerPadding: '10%',
+            }
+            },
+            {
+            breakpoint: 480,
+            settings: {
+                centerPadding: '10%',
+            }
+            }
+        ]
+        });
+    });
+    </script>
+
+<?php endif; ?>
+
+
+============================================================
+
+
+//With pagination
+<?php 
+        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+        $args = array (
+          'post_type'              => 'rfp_results',
+          'post_status'            => 'publish',
+          'pagination'             => true,
+          'posts_per_page'         => '20',
+          'order'                  => 'DESC',
+                'numberposts' => -1,
+                'paged' => $paged,
+        );
+        $query = new WP_Query( $args );
+    if($query->have_posts()) :?>
+
+    <table class="nkf-table nkf-results-table">
+        <tr>
+            <th>Reference No</th>
+            <th>Description</th>
+            <th>Successful Vendor</th>
+        </tr>
+
+        <?php
+        while($query->have_posts()) : $query->the_post();        
+        ?>
+
+        <tr>
+            <td><?php the_title() ?></td>
+            <td><?php the_field( 'rfp_result_desc' ) ?></td>
+            <td><?php the_field( 'rfp_successful_vendor' ) ?></td>
+        </tr>
+
+        <?php
+        endwhile;
+        ?>
+
+    </table>
+
+    <div class="nk-paginate">
+        <?php 
+            echo paginate_links( array(
+                'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+                'total'        => $query->max_num_pages,
+                'current'      => max( 1, get_query_var( 'paged' ) ),
+                'format'       => '?paged=%#%',
+                'show_all'     => false,
+                'type'         => 'plain',
+                // 'end_size'     => 2,
+                // 'mid_size'     => 1,
+                'prev_next'    => true,
+                'prev_text'    => sprintf( '<i></i> %1$s', __( '< Newer Tenders', 'text-domain' ) ),
+                'next_text'    => sprintf( '%1$s <i></i>', __( 'Older Tenders >', 'text-domain' ) ),
+                'add_args'     => false,
+                'add_fragment' => '',
+            ) );
+        ?>
+    </div>
+
+    
+<?php wp_reset_postdata(); ?>
+<?php
+    endif;
+
+?>
+
+
+
+============================================================
+
+
+//Other 1
+<?php 
+        $args = array (
+      'post_type'              => 'store_locator',
+        'tax_query' => array(
+            array (
+                'taxonomy' => 'store_location',
+                'field' => 'slug',
+                'terms' => 'singapore',
+            )
+        ),
+          'post_status'            => 'publish',
+          'pagination'             => true,
+          'order'                                   => 'DESC',
+        );
+        $query = new WP_Query( $args );
+    if($query->have_posts()) :?>
+
+    <ul class="text-popup-col-4 store-lists">
+        <?php
+        while($query->have_posts()) : $query->the_post();        
+        ?>
+            <li>
+                <a class="textBoxUrl" href="<?php echo get_permalink( $post->ID ); ?>">
+                    <img src="<?php echo get_the_post_thumbnail_url($post->ID, 'full'); ?>">
+                    <div class="textBox">
+                        <h3><?php echo get_the_title(); ?></h3>
+                    </div>
+                </a>
+            </li>
+        <?php
+        endwhile;
+        ?>
+        </ul>
+
+<?php wp_reset_postdata(); ?>
+
+<?php  endif;  ?>
+
+
+
+============================================================
+
+//Other 2
+
+
+<?php 
+    $args = array (
+        'post_type'              => 'instagram_photos',
+        'post_status'            => 'publish',
+        'pagination'             => true,
+        // 'posts_per_page'         => '20',
+        'order'                  => 'DESC',
+    );
+    $query = new WP_Query( $args );
+    
+    if($query->have_posts()) :?>
+
+    <ul class="instagram_photos">
+        <?php
+        while($query->have_posts()) : $query->the_post();        
+        ?>
+                        <li>
+                <a href="<?php the_field('instagram_image_url'); ?>" target="_blank">
+                    <img src="<?php the_field('instagram_image'); ?>">
+                </a>
+                        </li>
+        <?php endwhile; ?>
+        </ul>
+        <?php wp_reset_postdata(); ?>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('.instagram_photos').slick({
+            autoplay: false,
+            dots: false,
+            prevArrow:"<div class='insta_arrows prev' ><img src='<?php echo get_bloginfo( 'template_directory' ); ?>/assets/images/arrow-left.svg'></div>",
+            nextArrow:"<div class='insta_arrows next' ><img src='<?php echo get_bloginfo( 'template_directory' ); ?>/assets/images/arrow-right.svg'></div>",
+            focusOnSelect: true,
+            swipeToSlide: true,
+            slidesToShow: 5,
+            slidesToScroll: 5,
+            responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            centerMode: true
+                        }
+                    }
+                ]
+        });
+    });
+    </script>
+
+<?php  endif;  ?>
+
