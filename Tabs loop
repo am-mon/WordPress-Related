@@ -1,0 +1,90 @@
+<?php if(get_field('diamond_color_tab')): ?>
+        <div class="diamondColorTabBox">
+            <ul class="tab js-tab color-title-tab">
+                <?php while(has_sub_field('diamond_color_tab')): ?>
+                    <li class="tab__unit"><?php the_sub_field('color_title'); ?></li>
+                <?php endwhile; ?>
+            </ul>
+            <div class="tabCBoxs js-tabCBoxs">
+                <?php while ( have_rows('diamond_color_tab') ) : the_row();  ?>
+                <div class="tabCBox"><?php the_sub_field('color_description'); ?></div>
+                <?php endwhile;  ?>
+            </div>
+        </div>
+
+        <style>
+        .dnone {
+            display: none;
+        }
+        </style>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $(".js-tab .tab__unit:nth-of-type(1)").addClass("active");
+
+        $(".tabCBoxs .tabCBox").addClass("dnone");
+        $(".tabCBoxs .tabCBox:nth-of-type(1)").removeClass("dnone");
+
+        $(".js-tab .tab__unit").click(function() {
+            if(!$(this).hasClass('active')){
+                $(this).parents(".js-tab").find(".tab__unit").removeClass('active');
+                $(this).addClass('active');
+
+                var tabNum = $(this).index();
+                $(this).parents(".js-tab").next(".js-tabCBoxs").find(".tabCBox").hide();
+                $(this).parents(".js-tab").next(".js-tabCBoxs").find(".tabCBox").eq(tabNum).fadeIn("500");
+            }
+        });
+    });
+    </script>
+
+<?php endif; ?>
+
+
+========================================================================
+
+
+//Auto tabs click as per url request
+var page_url = location.href;
+var parseURL = page_url.split("#");
+console.log(page_url);
+console.log(parseURL);
+if( parseURL[1] ) {
+    var selectTab = "#" +  parseURL[1];
+    setTimeout(function(){
+        console.log(selectTab);
+        $(".js-tab li" + selectTab).trigger("click");  
+        // $(".js-tab li" + selectTab).addClass("active");
+    }, 3000);
+}
+
+
+========================================================================
+
+
+//Enquiry Form Changing as URL request
+$("ul#menu-1-f4dfa4b li a").on('click',function(evt){
+    setTimeout(function() {
+        window.location.reload();
+        $("html, body").animate({
+            'scrollTop':   $('.select_topic_title').offset().top - 150
+        }, 2000)
+    }, 1000);
+})
+
+var page_url = location.href;
+var parseURL = page_url.split("#");
+console.log(page_url);
+console.log(parseURL);
+if( parseURL[1] ) {
+    var selectValue = "#" +  parseURL[1];
+    console.log(selectValue);
+    $("#select_topic").val(parseURL[1]).trigger("click");  
+    $(".enquiry_forms").hide();
+    $(selectValue).show();
+
+    $("html, body").animate({
+        'scrollTop':   $('.select_topic_title').offset().top - 150
+    }, 2000)
+
+}
