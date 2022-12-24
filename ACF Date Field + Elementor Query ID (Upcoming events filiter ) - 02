@@ -1,0 +1,39 @@
+//ACF Date Field + Elementor Query ID (Upcoming events filiter )
+//https://getridbug.com/php/how-to-get-acf-post-object-value-with-date-filter-in-elementor-wordpress/
+
+
+add_action( 'elementor/query/our_courses_with_upcoming_courses', function( $query ) {
+ 
+  $query->set( 'meta_key', 'up_coming_course_starttime' );
+  $query->set( 'orderby', 'meta_value_num' );
+  $query->set( 'order', 'ASC' );
+
+});
+
+----------------------------------------------
+
+add_action( 'elementor/query/our_courses_with_upcoming_courses', function( $query ) {
+    $course_date = rses = get_field( "select_related_upcoming_courses" );
+    
+    if($upcoming_courses && count($upcoming_courses) > 0){
+      $query->set( 'post__in', $upcoming_courses );
+    }
+    if($course_date) {
+          $middle = strtotime($course_date);
+          $new_date = date('Ymd', $middle);
+
+         get_field( "select_our_course_date" );
+    $upcoming_cou $query->set( 'meta_query', array(
+              array(
+                  'key'     => 'up_coming_course_starttime',
+                  'value'    => $new_date,
+                  'compare' => '>=',
+              ),
+          ) );
+     }
+
+    $query->set( 'meta_key', 'up_coming_course_starttime' );
+    $query->set( 'orderby', 'meta_value_num' );
+    $query->set( 'order', 'ASC' );
+
+  });
