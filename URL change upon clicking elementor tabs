@@ -1,0 +1,37 @@
+
+//FAQ URL change and Tab change
+$("#faq_tabs ul.elementor-icon-list-items li.elementor-icon-list-item a").click(function(e){
+    e.preventDefault();
+
+    var linkID = $(this).attr('href');
+    window.location.hash = linkID;
+    var linkID_withoutHash = linkID.replace('#','');
+    console.log("linkID_withoutHash: " + linkID_withoutHash);
+
+    if (!$(this).hasClass('active')) {
+        $("#faq_tabs ul.elementor-icon-list-items li.elementor-icon-list-item a").removeClass('active');
+        $(this).addClass('active');
+    } else {
+        $(this).removeClass('active');
+        $("#faq_tabs ul.elementor-icon-list-items li.elementor-icon-list-item a").removeClass('active');
+    }
+
+    $(".elementor-widget-toggle").find(".elementor-widget-container").hide();
+    $(".elementor-widget-toggle" + "." + linkID_withoutHash).find(".elementor-widget-container").show();
+
+});
+
+
+//FAQ Tab change according to URL
+var hash = window.location.hash;
+console.log( "hash: " + hash );
+var hashValue_withoutHash = hash.replace('#','');
+console.log("hashValue_withoutHash: " + hashValue_withoutHash);
+
+if( hash && $(".elementor-widget-toggle").length > 0 ) { 
+    $(".elementor-widget-toggle").find(".elementor-widget-container").hide();
+    $(".elementor-widget-toggle" + "." + hashValue_withoutHash ).find(".elementor-widget-container").show();
+
+    $("#faq_tabs ul.elementor-icon-list-items li.elementor-icon-list-item a").removeClass('active');
+    $("#faq_tabs ul.elementor-icon-list-items li.elementor-icon-list-item a" + "[href='" + hash + "']").addClass('active');
+}
