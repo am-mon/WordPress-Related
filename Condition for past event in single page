@@ -1,0 +1,37 @@
+
+<?php if(is_single()) : ?>
+    <?php 
+       if (is_singular('blog')){
+           //By post date
+            if ( strtotime(get_the_date('Y-m-d')) > strtotime("now") ) {
+                $event_parent_title = "What's Happening";
+            } else {
+                $event_parent_title = "Past Events";
+            }
+        } 
+    ?>
+
+    <!-- Output starts from here -->    
+    <?php if (is_singular('event')){ ?>
+        <h2 class="event_title"><span><?php echo $event_parent_title ?></span></h2>
+    <?php } ?>
+    <style>
+    h2.event_title {
+        position: relative;
+        overflow: hidden;
+    }
+    h2.event_title:after {
+        content: "";
+        background-color: rgba(0, 0, 0, 0.19);
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        z-index: 0;
+    }
+    h2.event_title  span {
+        margin-right: 15px;
+    }
+    </style>
+
+<?php endif; ?>
