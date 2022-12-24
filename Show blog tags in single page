@@ -1,0 +1,18 @@
+<?php $terms = get_the_terms( $post->ID, 'blog_tag' ); ?>
+
+<div class="jue_lian_single_blog_tag">
+    <div class="label">
+        Tags
+    </div>
+    <div class="single_blog_tag">
+        <?php foreach($terms as $term) { ?>
+            <?php
+            $term_link = get_term_link( $term );
+            
+                    ?>
+            <a class="blog_tag" href="<?php         echo $term_link; ?>">
+                    <b><?php echo $term->name; ?></b>
+            </a>
+        <?php } ?>
+    </div>
+</div>
