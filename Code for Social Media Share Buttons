@@ -1,0 +1,31 @@
+<?php
+    $url_encode=urlencode(get_permalink());
+    $title_encode=urlencode(get_the_title()).'｜'.get_bloginfo('name');
+?>
+
+<div class="articles-share-wrap">
+    <div class="articles-share-btns-wrap">
+        <ul class="articles-share-btns">
+            <li>
+                <a href="https://www.facebook.com/sharer.php?u=<?php echo urlencode(get_permalink()); ?>&t=<?php echo urlencode(get_the_title()); ?>" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;">
+                    <span class="share-icon share-icon-facebook"><i class="fab fa-facebook" aria-hidden="true"></i></span>
+                <?php if(function_exists('scc_get_share_facebook')) echo (scc_get_share_facebook()==0)?'':scc_get_share_facebook(); ?>
+                </a>
+            </li>
+            <li>
+                <a href="https://api.whatsapp.com/send?text=*<?php echo urlencode(get_the_title()); ?>*<?php echo urlencode(get_permalink()); ?>" data-action="share/whatsapp/share" target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;">
+                    <span class="share-icon share-icon-whatsapp"><i class="fab fa-whatsapp" aria-hidden="true"></i></span>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:?subject=<?php echo urlencode(get_the_title()); ?>&amp;body=<?php echo urlencode(get_permalink()); ?>">
+                    <span class="share-icon share-icon-mail"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="artices-share-toggle">
+        <span class="share-open"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon-share-black.svg"></span>
+        <span class="share-close"><img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon-share-purple.svg"></span>
+    </div>
+</div>
