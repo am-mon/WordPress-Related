@@ -1,0 +1,199 @@
+//Custom gallery popup for Wordpress post overview page (Example: portfolio overview page to show gallery with popup box.)
+
+<?php 
+$images = get_field('portfolio_gallery');
+$size = 'full'; // (thumbnail, medium, large, full or custom size);
+if( $images ): ?>
+    <div class="portfolio_gallery_loop_wrap">
+
+
+        <div class="portfolio_gallery_trigger_img">
+            <img src="<?php echo get_the_post_thumbnail_url( null, 'full' ); ?>">
+            <h4 class="portfolio_gallery_trigger_title"><?php echo the_title(); ?></h4>
+        </div>
+
+        <div class="portfolio_gallery_popup">
+            <div class="portfolio_gallery_popup_inner">
+                <span class="close_portfolio_popup"><img src="<?php echo get_stylesheet_directory_uri();?>/assets/images/icon_close.svg"></span>
+                <ul class="protfolio_gallary">
+                    <?php foreach( $images as $image ): ?>
+                        <li>
+                            <!-- <a href="<?php // echo esc_url($image['url']); ?>"> -->
+                                <img src="<?php echo esc_url($image['url']); ?>">
+                            <!-- </a> -->
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <div class="portfolio_gallery_popup_desc_title"><?php echo the_title(); ?></div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    function gallery_slick() {
+        if($(".portfolio_gallery_popup").hasClass("active")) {
+            $(".portfolio_gallery_popup.active").find('ul.protfolio_gallary').not('.slick-initialized').slick({
+                infinite: true,
+                loop: true,
+                swipeToSlide: true,
+                // autoplay: true,
+                nextArrow: '<div class="item_arrow next"></div>',
+                prevArrow: '<div class="item_arrow prev"></div>',
+                // focusOnSelect: true,
+                swipeToSlide: true,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            });
+        } 
+    }
+    gallery_slick();
+
+
+    function close_gallery_popup(){
+        $(".close_portfolio_popup").on('click',function(){
+            $(".portfolio_gallery_popup").removeClass("active");
+            // $('.portfolio_gallery_popup ul.protfolio_gallary').slick('unslick');
+        });
+    }
+    close_gallery_popup();
+   
+    
+
+    function gallery_trigger() {
+        $(".portfolio_gallery_trigger_img").on('click',function(){
+            $(this).next(".portfolio_gallery_popup").addClass("active");
+            // setTimeout(function() { 
+                gallery_slick();
+            // }, 500);
+        }); 
+    }
+    gallery_trigger();
+
+
+    document.addEventListener('facetwp-loaded', function() {
+        gallery_trigger();
+        close_gallery_popup();
+    });
+
+
+});
+</script>
+
+<?php endif; ?>
+
+
+
+
+/***************** SCSS *****************/
+.portfolio_gallery_loop_wrap {
+    margin-bottom: 20px;
+    @include mobile() {
+        margin-bottom: 15px;
+    }
+    .portfolio_gallery_trigger_img {
+        position: relative;
+        cursor: pointer;
+        img {
+            width: 100%;
+            height: auto;
+        }
+        h4.portfolio_gallery_trigger_title {
+            position: absolute;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: 0 !important;
+            font-size: 24px !important;
+            line-height: 1.2em !important;
+            @include mobile() {
+                font-size: 14px;
+            }
+        }
+        &:hover {
+            .portfolio_gallery_trigger_title {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #292929;
+                background: rgba(255,255,255,0.7);
+            }
+        }
+    }
+
+    .portfolio_gallery_popup {
+        display: none;
+        &.active {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            z-index: 999;
+            background: rgba(41, 41, 41, 0.6);
+        }
+        .portfolio_gallery_popup_inner {
+            position: relative;
+            width: 420px;
+            background: #FFFFFF;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
+            @include mobile() {
+                width: 70%;
+            }
+            @include smallmobile() {
+                width: 90%;
+            }
+            .close_portfolio_popup {
+                cursor: pointer;
+                position: absolute;
+                right: -20px;
+                top: -20px;
+                z-index: 99;
+                width: 35px;
+            }
+            ul.protfolio_gallary {
+                list-style: none !important;
+                margin: 0 !important;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+                .item_arrow {
+                    &.prev {
+                        background: url(../images/arrow-white-black-left.svg) no-repeat !important;
+                        background-size: contain !important;
+                        background-position: center !important;
+                        width: 35px !important;
+                        height: 35px !important;
+                    }
+                    &.next {
+                        background: url(../images/arrow-white-black-right.svg) no-repeat !important;
+                        background-size: contain !important;
+                        background-position: center !important;
+                        width: 35px !important;
+                        height: 35px !important;
+                    }
+                }
+            }
+            .portfolio_gallery_popup_desc_title {
+                text-align: center;
+                margin-top: 10px !important;
+                color: #292929;
+            }
+        }
+    }
+}
