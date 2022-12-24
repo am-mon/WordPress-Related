@@ -1,0 +1,7 @@
+//Add custom text at the admin dashboard footer
+add_filter('admin_footer_text', 'psg_grant');
+add_filter( 'update_footer',     '__return_empty_string', 11 );
+function psg_grant() {
+    global $wp_version;
+    return 'Add here your custom text';
+}
