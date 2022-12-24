@@ -1,0 +1,214 @@
+//jquery.kwicks-2.2.1.js
+//jquery.kwicks-2.2.1.css
+
+
+<?php if(get_field('our_philosophy')): ?>
+    <?php $m = 1 ?>
+        <div class="our_philosophy kwicksWrap">
+        <ul class="kwicks kwicks-horizontal">
+            <?php while(has_sub_field('our_philosophy')): ?>
+                <li id="panelBox_<?php echo $m; ?>">
+                    <div class="panelBg" style="background-image: url(<?php the_sub_field('image'); ?>);">
+                        <div class="panelBoxInner">
+                            <div class="panelTitle">
+                                <div class="verticalTitle">
+                                    <span><p><?php the_sub_field('title'); ?></p></span>
+                                </div>
+                            </div>
+                            <div class="panelDesc">
+                                <div><?php the_sub_field('description'); ?></div>
+                            </div>
+                        </div> 
+                    </div>
+                </li>
+                <?php $m++; ?>
+            <?php endwhile; ?>
+        </ul>
+    </div>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('.kwicks').kwicks({
+            maxSize:'70%',
+            behavior:'menu',
+            spacing:0
+        });
+    });
+    </script>
+    
+<?php endif; ?>
+
+
+
+<style>
+.our_philosophy {
+    ul.kwicks {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 600px;
+        @include mobile() {
+            height: 450px;
+        }
+        li {
+            height: 100%;
+            width: 20%;
+            float: left;
+            @include mobile() {
+                width: 100% !important;
+                position: relative !important;
+                left: 0px !important;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                top: auto;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                opacity: 0;
+                height: 30%;
+            }
+            .panelBg {
+                height: 100%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+            }
+            .panelBoxInner {
+                position: absolute;
+                top: 0px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                z-index: 9;
+            }
+            .panelTitle {
+                width: 60px;
+                height: 100%;
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                top: 0px;
+                background-color: #9C2530;
+                max-width: 50px;
+                overflow: hidden;
+                .verticalTitle {
+                    height: 100%;
+                    display: table;
+                    span {
+                        display: table-cell;
+                        vertical-align: middle;
+                        p {
+                            writing-mode: tb-rl;
+                            -webkit-transform:rotate(180deg);
+                            -moz-transform:rotate(180deg);
+                            -o-transform: rotate(180deg);
+                            -ms-transform:rotate(180deg);
+                            transform: rotate(180deg);
+                            white-space:nowrap;
+                            font-size: 24px;
+                            font-weight: 500;
+                            color: #fff;
+                            line-height: 50px;
+                            margin: 0px;
+                            padding: 0px;
+                            position: absolute;
+                            right: 0;
+                            bottom: 100px;
+                            font-family: "Work Sans", Sans-serif;
+                            text-transform: capitalize;
+                            @include mobile() {
+                                bottom: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+            .panelDesc {
+                display: none;
+                width: auto;
+                position: absolute;
+                top: auto;
+                left: 50px;
+                right: 0px;
+                bottom: 0px;
+                padding: 30px 40px;
+                & > div {
+                    color: #fff;
+                    font-size: 18px;
+                    line-height: 1.5;
+                    @include mobile() {
+                        font-size: 16px;
+                    }
+                }
+                @include mobile() {
+                    display: block;
+                    padding: 20px;
+                }
+            }
+            &:hover {
+                .panelDesc { 
+                    display: block;
+                }
+            }
+        }
+    }
+    li#panelBox_1 {
+        &:hover{
+            &:after{
+                opacity: 1;
+                background-color: rgba(156, 37, 48, 0.8);
+            }
+        }
+        .panelTitle {
+            background-color: #9C2530;
+        }
+    }
+    li#panelBox_2 {
+        &:hover{
+            &:after{
+                opacity: 1;
+                background-color: rgba(255, 166, 85, 0.8);
+            }
+        }
+        .panelTitle {
+            background-color: #FFA655;
+        }
+    }
+    li#panelBox_3 {
+        &:hover{
+            &:after{
+                opacity: 1;
+                background-color: rgba(67, 191, 198, 0.8);
+            }
+        }
+        .panelTitle {
+            background-color: #43BFC6;
+        }
+    }
+    li#panelBox_4 {
+        &:hover{
+            &:after{
+                opacity: 1;
+                background-color: rgba(113, 196, 65, 0.8);
+            }
+        }
+        .panelTitle {
+            background-color: #71C441;
+        }
+    }
+    li#panelBox_5 {
+        &:hover{
+            &:after{
+                opacity: 1;
+                background-color: rgba(156, 37, 49, 0.8);
+            }
+        }
+        .panelTitle {
+            background-color: #9C2530;
+        }
+    }
+}
+</style>
