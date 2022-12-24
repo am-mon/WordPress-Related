@@ -1,0 +1,38 @@
+<?php if(is_single()) : ?>
+    <?php if (is_singular('blog')){ ?>
+
+        <?php
+            echo '<div id="blog_breadcrumbs"><a href="' . get_home_url() . '">Home</a> <span class="separator"><i aria-hidden="true" class="fas fa-circle"></i></span> ';
+            $rd_taxonomy = 'blog_cate'; // blog taxonomy
+            $rd_terms = wp_get_post_terms( $post->ID, $rd_taxonomy, array( "fields" => "ids" ) ); // getting the term IDs
+            if( $rd_terms ) {
+                $term_array = trim( implode( ',', (array) $rd_terms ), ' ,' );
+                $neworderterms = get_terms($rd_taxonomy, 'orderby=none&include=' . $term_array );
+                foreach( $neworderterms as $orderterm ) {
+                    echo '<a href="' . get_term_link( $orderterm ) . '">' . $orderterm->name . '</a> <span class="separator"><i aria-hidden="true" class="fas fa-circle"></i></span> ';
+                }
+            }
+            the_title();
+            echo '</div>';
+        ?>
+
+    <?php } ?>
+
+    <style>
+        #blog_breadcrumbs {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        #blog_breadcrumbs span.separator {
+            font-size: 5px !important;
+            vertical-align: middle;
+            margin: 0 5px;
+        }
+        #blog_breadcrumbs a {
+            color: #000000 !important;
+        }
+        #blog_breadcrumbs a:hover {
+            color: #ff9275 !important;
+        }
+    </style>
+<?php endif; ?>
