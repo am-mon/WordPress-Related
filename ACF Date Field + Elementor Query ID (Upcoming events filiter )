@@ -1,0 +1,47 @@
+//ACF Date Field + Elementor Query ID (Upcoming events filiter )
+
+/*
+ * filter the arguments to get my custom posts
+ * args - original arguments
+ * $widgetControlsValues - all the values of the current widget. 
+ * it can be used for the post list
+ */
+// Showing multiple post types in Posts Widget
+add_action( 'elementor/query/my_query_filter', function( $query ) {
+
+            $query->set( 'meta_query', 
+        array(
+          array(
+                'key' => 'dates_start',
+                'value' => date('Ymd'),
+                'compare' => '>='
+        )
+                ));  
+} );
+
+
+add_action( 'elementor/query/my_query_filter_past', function( $query ) {
+            $query->set( 'meta_query', 
+        array(
+          array(
+                'key' => 'dates_start',
+                'value' => date('Ymd'),
+                'compare' => '<='
+        )
+                ));  
+        if($query =''){
+                echo 'No Upcoming Roadshows';
+        }
+} );
+
+
+add_action( 'elementor/query/my_query_filter_resource', function( $query ) {
+            $query->set( 'meta_query', 
+        array(
+          array(
+                'key' => 'title',
+                'value' => 'Communit',
+              
+        )
+                ));  
+} );
