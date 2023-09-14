@@ -1,4 +1,14 @@
-<!-- For popup box inside Google map -->
+Facet type: Map
+Data source: acf text field for example "latitude_longitude". To fill like "latitude,longitude"
+Longitude: Don't need
+Map width / height: 100% , 650
+Zoom min / max: 1, 20
+Fall back: Don't need
+Marker content: <?php echo do_shortcode( '[include slug="shortcode/location_map_popup"]' ); ?>
+
+==========================================
+
+<!-- Shortcode for popup box inside Google map -->
 <div class="location_popup">
     <div class="location_popup_title">
         <b>
@@ -19,7 +29,7 @@
 ==========================================
 
 
-<!-- For the location result loop -->
+<!-- Shortcode for the location result loop -->
 <div class="location_result_loop">
     <div class="location_result_loop_left">
         <?php if (get_field('address')) { ?>
