@@ -101,3 +101,199 @@ Marker content: <?php echo do_shortcode( '[include slug="shortcode/location_map_
         <?php } ?>
     </div>
 </div>
+
+
+==========================================
+
+Then add for map design and changing marker icon at functions.php
+
+//Facet Google Map
+add_filter('facetwp_map_init_args', function ($args) {
+	$args['init']['styles'] = json_decode('
+	[
+		{
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#242f3e"
+			}
+			]
+		},
+		{
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#746855"
+			}
+			]
+		},
+		{
+			"elementType": "labels.text.stroke",
+			"stylers": [
+			{
+				"color": "#242f3e"
+			}
+			]
+		},
+		{
+			"featureType": "administrative.locality",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#d59563"
+			}
+			]
+		},
+		{
+			"featureType": "poi",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#d59563"
+			}
+			]
+		},
+		{
+			"featureType": "poi.park",
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#263c3f"
+			}
+			]
+		},
+		{
+			"featureType": "poi.park",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#6b9a76"
+			}
+			]
+		},
+		{
+			"featureType": "road",
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#38414e"
+			}
+			]
+		},
+		{
+			"featureType": "road",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			{
+				"color": "#212a37"
+			}
+			]
+		},
+		{
+			"featureType": "road",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#9ca5b3"
+			}
+			]
+		},
+		{
+			"featureType": "road.highway",
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#746855"
+			}
+			]
+		},
+		{
+			"featureType": "road.highway",
+			"elementType": "geometry.stroke",
+			"stylers": [
+			{
+				"color": "#1f2835"
+			}
+			]
+		},
+		{
+			"featureType": "road.highway",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#f3d19c"
+			}
+			]
+		},
+		{
+			"featureType": "transit",
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#2f3948"
+			}
+			]
+		},
+		{
+			"featureType": "transit.station",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#d59563"
+			}
+			]
+		},
+		{
+			"featureType": "water",
+			"elementType": "geometry",
+			"stylers": [
+			{
+				"color": "#17263c"
+			}
+			]
+		},
+		{
+			"featureType": "water",
+			"elementType": "labels.text.fill",
+			"stylers": [
+			{
+				"color": "#515c6d"
+			}
+			]
+		},
+		{
+			"featureType": "water",
+			"elementType": "labels.text.stroke",
+			"stylers": [
+			{
+				"color": "#1A263A"
+			}
+			]
+		}
+		]
+	');
+	return $args;
+});
+
+
+//Facet Map Marker
+add_filter('facetwp_map_marker_args', function ($args, $post_id) {
+	$args['icon'] = [
+		'url' => get_stylesheet_directory_uri() . '/assets/images/icon-map-yellow.png',
+		'scaledSize' => [
+			'width' => 40,
+			'height' => 40
+		]
+	];
+	return $args;
+}, 10, 2);
+
+
+
+// hide facetwp count for map at contact page
+add_filter('facetwp_facet_dropdown_show_counts', function ($return, $params) {
+	if ('location_filter' == $params['facet']['name']) {
+		$return = false;
+	}
+	return $return;
+}, 10, 2);
