@@ -1,0 +1,88 @@
+<!-- For popup box inside Google map -->
+<div class="location_popup">
+    <div class="location_popup_title">
+        <b>
+            <?php the_title(); ?>
+        </b>
+    </div>
+    <div class="location_popup_address">
+        <b>Address</b><br>
+        <?php the_field('address'); ?>
+    </div>
+    <div class="location_popup_opening_hours">
+        <b>Opening Hours</b><br>
+        <?php the_field('opening_hours'); ?>
+    </div>
+</div>
+
+
+==========================================
+
+
+<!-- For the location result loop -->
+<div class="location_result_loop">
+    <div class="location_result_loop_left">
+        <?php if (get_field('address')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_map.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <?php the_field('address'); ?>
+                    </span>
+                </div>
+        <?php } ?>
+        <?php if (get_field('opening_hours')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_clock.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <?php the_field('opening_hours'); ?>
+                    </span>
+                </div>
+        <?php } ?>
+    </div>
+    <div class="location_result_loop_right">
+        <?php if (get_field('contact_tel')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_phone.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <?php the_field('contact_tel'); ?>
+                    </span>
+                </div>
+        <?php } ?>
+        <?php if (get_field('contact_fax')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_fax.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <?php the_field('contact_fax'); ?>
+                    </span>
+                </div>
+        <?php } ?>
+        <?php if (get_field('email')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_email.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <?php the_field('email'); ?>
+                    </span>
+                </div>
+        <?php } ?>
+        <?php if (get_field('google_map_url')) { ?>
+                <div class="location_result_loop_box">
+                    <span class="icon_box">
+                        <img src="<?php echo get_stylesheet_directory_uri() . '/assets/images/icon_location_direction.svg' ?>">
+                    </span>
+                    <span class="text_box">
+                        <a href="<?php the_field('google_map_url'); ?>" target="_blank" class="get_direction">GET DIRECTIONS</a>
+                    </span>
+                </div>
+        <?php } ?>
+    </div>
+</div>
