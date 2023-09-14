@@ -1,0 +1,324 @@
+<?php if (have_rows('product_slider')) { ?>
+
+    <div class="products_slider_content">
+
+        <div class="products_main_wrap">
+            <div class="products_main">
+                <?php while (have_rows('product_slider')):
+                    the_row();
+                    ?>
+
+                    <div class="products_main_boxes">
+                        <div>
+
+                            <div class="product-img">
+                                <img src="<?php the_sub_field('image'); ?>" />
+                            </div>
+                            <div class="product-title-role">
+                                <h3 class="product-title">
+                                    <?php the_sub_field('title'); ?>
+                                </h3>
+                            </div>
+
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+            <div class="our_product_arrow prev"></div>
+            <div class="our_product_arrow next"></div>
+        </div>
+
+        <div class="products_content_wrap">
+            <span class="close_content">
+                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icon_close_white.svg">
+            </span>
+            <div class="products_content_inner">
+                <div class="products_content">
+                    <?php
+                    while (have_rows('product_slider')):
+                        the_row(); ?>
+                        <div class="products_content_boxes">
+                            <div class="products_content_box_inner">
+                                <h2>
+                                    <?php the_sub_field('title'); ?>
+                                </h2>
+                                <p>
+                                    <?php the_sub_field('description'); ?>
+                                </p>
+                                <?php
+                                $link = get_sub_field('url');
+                                $link_url = $link['url'];
+                                $link_title = $link['title'];
+                                $link_target = $link['target'] ? $link['target'] : '_self';
+                                ?>
+                                <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>">
+                                    <button class="button">Read More</button>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+
+    </style>
+
+    <script>
+        jQuery(document).ready(function ($) {
+            $('.products_main').slick({
+                infinite: true,
+                loop: true,
+                swipeToSlide: true,
+                // autoplay: true,
+                // autoplaySpeed: 3500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                cssEase: "linear",
+                dots: false,
+                centerMode: true,
+                centerPadding: '33%',
+                prevArrow: $(".our_product_arrow.prev"),
+                nextArrow: $(".our_product_arrow.next"),
+                asNavFor: '.products_content',
+                responsive: [
+                    {
+                        breakpoint: 1025,
+                        settings: {
+                            slidesToShow: 1,
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1,
+                            centerPadding: "0%"
+                        }
+                    }
+                ]
+            });
+
+            $('.products_content').slick({
+                infinite: true,
+                loop: true,
+                swipeToSlide: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+                prevArrow: $(".our_product_arrow.prev"),
+                nextArrow: $(".our_product_arrow.next"),
+                asNavFor: '.products_main',
+                responsive: [
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                        }
+                    }
+                ]
+            });
+
+
+            var clicked = true;
+            $(".products_main, .close_content").on('click', function () {
+                if (clicked) {
+                    clicked = false;
+                    $(".products_content_wrap").css({ "right": 0 });
+                }
+                else {
+                    clicked = true;
+                    $(".products_content_wrap").css({ "right": "-100%" });
+                }
+            });
+
+        });
+    </script>
+
+
+<?php } ?>
+
+
+
+<style>
+.products_slider_content {
+    position: relative;
+    .products_main {
+        position: relative;
+        cursor: grab;
+        .products_main_boxes {
+            position:  relative !important;
+            &.slick-current {
+                .product-img {
+                    &::before {
+                    content: "";
+                        height: 50px;
+                    }
+                    img { 
+                        opacity: 1;
+                        -webkit-transform: scale(1);
+                        transform: scale(1);
+                        -webkit-filter: none;
+                        filter: none;
+                        transition: opacity 0.5s;  
+                        transition: transform 0.3s linear;
+                        transition-delay: 0.3s;
+                    }
+                }
+                .product-title-role { 
+                    opacity: 1;
+                    transition: opacity 0.5s;  
+                    transition: transform 0.3s linear;
+                    transition-delay: 0.3s;
+                }
+            }
+            .product-img {
+                position: relative;
+                &::before {
+                    content: "";
+                    height: 180px;
+                    width: 100%;
+                    display: block;
+                    background: url(../images/bottom_grey_shadow.png);
+                    background-repeat: repeat;
+                    background-size: 100% 100%;
+                    background-position: bottom;
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    right: 0;
+                    z-index: 9;
+                }
+                img {
+                    opacity: 0.7;
+                    -webkit-transform: scale(0.7);
+                    transform: scale(0.7);
+                    -webkit-filter: blur(2px) grayscale(10%);
+                    filter: blur(2px) grayscale(10%);
+                    transition: opacity 0.5s;  
+                    transition: transform 0.3s linear;
+                    transition-delay: 0.3s;
+                    max-width: 500px;
+                    max-height: 500px;
+                    display: block;
+                    margin: 0 auto;
+                    @include tablet() {
+                        max-width: unset;
+                        max-height: unset;
+                        width: 90%;
+                        height: auto;
+                    }
+                    @include mobile() {
+                        width: 80%;
+                    }
+                }
+            }
+            .product-title-role {
+                opacity: 0;
+                text-align: center;
+                margin-top: 20px;
+                transition: opacity 0.5s;  
+                transition: transform 0.3s linear;
+                transition-delay: 0.3s;
+                @include mobile() {
+                    display: none;
+                }
+                h3.product-title {
+                    color: #ffffff;
+                    margin: 0 !important;
+                }
+                h5.product-role {
+                    color: #ffffff;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+    .products_content_wrap {
+        position: relative;
+        color: white;
+        background-color: #181D2D;
+        position: fixed;
+        width: 37%;
+        right: -100%;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 50px 20px 50px 50px;
+        -webkit-transition: right 1s;
+        -moz-transition: right 1s;
+        -o-transition: right 1s;
+        transition: right 1s;
+        box-sizing: border-box;
+        z-index: 9999999;
+        @include mobile() {
+            position: static !important;
+            height: auto;
+            width: 100%;
+            padding: 30px 20px;
+            transform: none !important;
+            background: none !important;
+            text-align: center;
+        }
+        span.close_content {
+            display: inline-block;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            cursor: pointer;
+            @include mobile() {
+                display: none;
+            }
+        }
+        .products_content_inner {
+            max-height: 580px;
+            min-height: 400px;
+            overflow-y: scroll;
+            padding-right: 30px;
+            @include mobile() {
+                height: auto;
+                min-height: unset;
+                max-height: unset;
+                padding-right: 0;
+            }
+            h2 {
+                margin-bottom: 0 !important;
+            }
+            h5 {
+                text-transform: uppercase;
+            }
+        }
+    }
+    .products_main_wrap {
+        position: relative;
+    }
+    .our_product_arrow {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 999999999 !important;
+        cursor: pointer;
+        &.prev {
+            background: url(../images/arrow-white-left.svg);
+            left: 20px !important;
+            @include mobile() {
+                left: 5px !important;
+            }
+        }
+        &.next {
+            background: url(../images/arrow-white-right.svg);
+            right: 20px !important;
+            @include mobile() {
+                right: 5px !important;
+            }
+        }
+    }
+}
+</style>
+
