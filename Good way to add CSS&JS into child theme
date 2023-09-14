@@ -1,0 +1,19 @@
+
+//Proper way to add CSS/JS in wordpress child theme
+add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
+function'theme_enqueue_styles()
+{
+	//First Parameter must be unique
+	//css
+	wp_enqueue_style('child-fontawesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', '', strtotime("now"));
+	wp_enqueue_style($parent_style . '-slick', get_stylesheet_directory_uri() . '/assets/css/slick.css', '', strtotime("now"));
+	wp_enqueue_style($parent_style . '-slick-min', get_stylesheet_directory_uri() . '/assets/css/slick.min.css', '', strtotime("now"));
+	wp_enqueue_style($parent_style . '-fanceybox', get_stylesheet_directory_uri() . '/assets/css/jquery.fancybox.min.css', '', strtotime("now"));
+	wp_enqueue_style($parent_style . '-mon', get_stylesheet_directory_uri() . '/assets/css/mon.min.css', '', strtotime("now"));
+
+	//js
+	wp_enqueue_script($parent_style . '-slick', get_stylesheet_directory_uri() . '/assets/js/slick.min.js', '', strtotime("now"));
+	wp_enqueue_script($parent_style . '-fancybox', get_stylesheet_directory_uri() . '/assets/js/jquery.fancybox.min.js', '', strtotime("now"));
+	wp_enqueue_script($parent_style . '-mon', get_stylesheet_directory_uri() . '/assets/js/mon.js', '', strtotime("now"));
+
+}
